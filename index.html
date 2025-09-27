@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClassMate AI</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style type="text/tailwindcss">
+      :root {
+        --background: #FAF8F1;
+        --accent: #FAEAB1;
+        --text-primary: #34656D;
+        --text-secondary: #334443;
+      }
+      body {
+        background-color: var(--background);
+        color: var(--text-primary);
+        font-family: 'Space Grotesk', sans-serif;
+      }
+      .form-input {
+        @apply relative block w-full appearance-none rounded-lg border border-[var(--accent)] bg-transparent px-4 py-3 text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:z-10 focus:border-[var(--accent)] focus:outline-none focus:ring-[var(--accent)] sm:text-sm;
+      }
+      .form-input::placeholder {
+        color: var(--text-secondary);
+        opacity: 0.6;
+      }
+      .btn-primary {
+        @apply rounded-lg px-5 py-2.5 text-sm font-semibold transition bg-[var(--accent)] text-[var(--text-primary)] hover:bg-[#f9e3a0];
+      }
+      .btn-secondary {
+        @apply rounded-lg px-5 py-2.5 text-sm font-semibold transition bg-transparent text-[var(--text-primary)] border border-[var(--accent)] hover:bg-[var(--accent)];
+      }
+      .link {
+        @apply font-medium text-[var(--text-primary)] hover:text-[#2a5258];
+      }
+      .prose {
+        color: var(--text-secondary);
+      }
+      .prose h1, .prose h2, .prose h3, .prose strong {
+        color: var(--text-primary);
+      }
+
+      @media print {
+        body * {
+          visibility: hidden;
+        }
+        #resume-to-print, #resume-to-print * {
+          visibility: visible;
+        }
+        #resume-to-print {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          border: none;
+          transform: scale(0.95);
+          transform-origin: top left;
+        }
+        nav, .resume-editor-pane, .resume-preview-header {
+          display: none !important;
+        }
+      }
+
+      /* Custom Scrollbar Styles */
+      /* For Firefox */
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--accent) transparent;
+      }
+
+      /* For Webkit Browsers (Chrome, Safari, Edge) */
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background-color: var(--accent);
+        border-radius: 20px;
+        border: 3px solid var(--background);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background-color: #f9e3a0;
+      }
+    </style>
+</head>
+<body class="antialiased">
+    <div id="root"></div>
+    <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.3",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.21.0",
+    "uuid": "https://aistudiocdn.com/uuid@^13.0.0"
+  }
+}
+</script>
+    <script type="module" src="/index.tsx"></script>
+</body>
+</html>
