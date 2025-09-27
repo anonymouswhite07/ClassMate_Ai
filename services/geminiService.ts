@@ -1,10 +1,18 @@
 import { GoogleGenAI, Chat, Type, GenerateContentResponse } from "@google/genai";
 import { Quiz, ResumeData } from "../types";
 
-// Fix: Initialize the GoogleGenAI client according to the guidelines.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+export const isApiKeyConfigured = !!process.env.API_KEY;
+
+// Initialize the client only if the API key is available to prevent crashing.
+const ai = isApiKeyConfigured ? new GoogleGenAI({ apiKey: process.env.API_KEY }) : null;
+
+const apiKeyMissingError = "Application is not configured correctly. The API key is missing.";
 
 export const createChat = (): Chat => {
+  if (!ai) {
+    // This should ideally not be reached if App.tsx prevents rendering, but it's a safeguard.
+    throw new Error("Gemini AI client is not initialized. API key might be missing.");
+  }
   // Fix: Use the 'gemini-2.5-flash' model for chat.
   return ai.chats.create({
     model: 'gemini-2.5-flash',
@@ -15,6 +23,10 @@ export const createChat = (): Chat => {
 };
 
 export const generateText = async (prompt: string): Promise<string> => {
+  if (!ai) {
+      console.error(apiKeyMissingError);
+      return "Sorry, the application is not configured correctly. Please contact the administrator.";
+  }
   try {
     // Fix: Use ai.models.generateContent for single-turn text generation.
     const response = await ai.models.generateContent({
@@ -52,6 +64,10 @@ const quizSchema = {
 
 
 export const generateQuiz = async (topic: string, numQuestions: number): Promise<Quiz | null> => {
+    if (!ai) {
+        console.error(apiKeyMissingError);
+        return null;
+    }
     const prompt = `Generate a quiz with ${numQuestions} multiple-choice questions on the topic of "${topic}". Each question should have 4 options. Ensure one of the options is the correct answer.`;
 
     try {
@@ -103,6 +119,10 @@ const fileToGenerativePart = async (file: File) => {
 }
 
 export const summarizeFile = async (file: File): Promise<string> => {
+    if (!ai) {
+        console.error(apiKeyMissingError);
+        return "Sorry, the application is not configured correctly. Please contact the administrator.";
+    }
     const prompt = "Summarize this document into a few key points. Provide a concise and easy-to-understand summary.";
     try {
         const filePart = await fileToGenerativePart(file);
@@ -180,6 +200,10 @@ const resumeSchema = {
 };
 
 export const generateResumeFromPrompt = async (prompt: string): Promise<ResumeData | null> => {
+    if (!ai) {
+        console.error(apiKeyMissingError);
+        return null;
+    }
     const fullPrompt = `You are an expert career coach and resume writer. Based on the following information, generate a complete and professional resume in JSON format. The information is: "${prompt}". Make sure the descriptions for experiences are action-oriented and highlight achievements.`;
 
     try {
